@@ -111,7 +111,7 @@ client.mset("x", "10", "y", "20", "z", "30")
 values = client.mget("x", "y", "z")
 print(values)  # ['10', '20', '30']
 
-
+# Temporary data with TTL
 client.execute("SETEX", "session:abc", 3600, "token123")
 
 # Check database size
@@ -121,7 +121,7 @@ print(f"Total keys: {client.dbsize()}")
 client.save()
 
 REVIEW
-# Temporary data with TTL<img width="813" height="484" alt="9999" src="https://github.com/user-attachments/assets/302f218e-9fc0-48f4-8d2f-7ea2b6b8ac9d" />
+<img width="813" height="484" alt="9999" src="https://github.com/user-attachments/assets/302f218e-9fc0-48f4-8d2f-7ea2b6b8ac9d" />
 
 
 
