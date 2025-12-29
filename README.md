@@ -1,117 +1,125 @@
-In-Memory-Key-Value-Store (Redis-like)
+🗄️ In-Memory Key-Value Store (Redis-like)
 
 Lightweight in-memory key-value database with TTL support and a custom binary protocol.
 
-Features
 
-Key-value storage in memory
+✨ Features
 
-TTL support (SETEX)
+💾 Key-value storage in memory
+⏰ TTL support (SETEX) for auto-expiring keys
+🔄 Batch operations (MGET, MSET)
+📡 Custom Redis-like protocol
+🌐 TCP client-server architecture
+⚡ Concurrent connections with gevent
+💿 Persistence with automatic snapshots
+🔐 Atomic saves preventing data corruption
 
-Multiple operations (MGET, MSET)
 
-Custom Redis-like protocol
+🛠️ Supported Commands
+CommandDescriptionGET keyRetrieve value by keySET key valueStore key-value pairSETEX key ttl valueSet with expiration (seconds)DELETE keyRemove a keyMGET key1 key2 ...Get multiple valuesMSET k1 v1 k2 v2 ...Set multiple pairsFLUSHClear all keysSAVEForce immediate saveBGSAVEBackground saveDBSIZEGet key countLASTSAVELast save timestamp
 
-TCP client-server architecture
+Architecture:
 
-Concurrent connections
+📨 ProtocolHandler — Parses and serializes protocol messages
+💽 InMemoryKeyValueStore — Basic key-value storage
+⏱️ ExpiringKeyValueStore — Storage with TTL support
+🖥️ Server — Async TCP server handling commands
+📱 Client — TCP client for interacting with the server
 
-Supported Commands
 
-GET key
+🚀 Tech Stack
 
-SET key value
+🐍 Python 3
+🌿 gevent (async networking)
+🔌 TCP sockets
+📦 Custom binary protocol
+🧠 In-memory data structures
+💾 Pickle persistence
 
-SETEX key ttl value
 
-DELETE key
+📦 Installation
+bashpip install gevent
 
-MGET key1 key2 ...
-
-MSET key1 value1 key2 value2 ...
-
-FLUSH
-
-Architecture
-
-ProtocolHandler — parses and serializes protocol messages
-
-InMemoryKeyValueStore — basic key-value storage
-
-ExpiringKeyValueStore — storage with TTL support
-
-Server — async TCP server handling commands
-
-Client — TCP client for interacting with the server
-
-Tech Stack
-
-Python 3
-
-gevent (async networking)
-
-TCP sockets
-
-Custom binary protocol
-
-In-memory data structures
-
-Installation
-pip install gevent
-
-Run Server
-python kvstore.py
-
+▶️ Run Server
+bashpython kvstore.py
+```
 
 Server starts on:
+```
+🌐 127.0.0.1:31337
 
-127.0.0.1:31337
-
-How to Use (Client API)
-Connect from Python
-from kvstore import Client
+💻 How to Use (Client API)
+🔗 Connect from Python
+pythonfrom kvstore import Client
 
 client = Client()
 
-Commands Usage
-SET
-
+📚 Commands Usage
+📝 SET
 Store a key-value pair
-
-client.set("name", "Alice")
-
-GET
-
+pythonclient.set("name", "Alice")
+# Returns: 1
+🔍 GET
 Retrieve a value by key
-
-client.get("name")
-
-SETEX
-
+pythonclient.get("name")
+# Returns: "Alice"
+⏰ SETEX
 Store a value with TTL (in seconds)
-
-client.execute("SETEX", "temp", 5, "data")
-
-DELETE
-
+pythonclient.execute("SETEX", "temp", 5, "data")
+# Key expires after 5 seconds
+🗑️ DELETE
 Remove a key
-
-client.delete("name")
-
-MSET
-
+pythonclient.delete("name")
+# Returns: 1 (deleted) or 0 (not found)
+📦 MSET
 Set multiple key-value pairs
-
-client.mset("a", "1", "b", "2")
-
-MGET
-
+pythonclient.mset("a", "1", "b", "2", "c", "3")
+# Returns: 3 (number of pairs set)
+🔎 MGET
 Get multiple values
-
-client.mget("a", "b")
-
-FLUSH
-
+pythonclient.mget("a", "b", "c")
+# Returns: ["1", "2", "3"]
+💥 FLUSH
 Remove all keys
+pythonclient.flush()
+# Returns: number of keys deleted
+💾 SAVE
+Force immediate save to disk
+pythonclient.save()
+# Returns: "OK"
+🌙 BGSAVE
+Background save (non-blocking)
+pythonclient.bgsave()
+# Returns: "Background save started"
+📊 DBSIZE
+Get total number of keys
+pythonclient.dbsize()
+# Returns: 42
+🕐 LASTSAVE
+Get timestamp of last save
+pythonclient.lastsave()
+# Returns: 1735488000
 
-client.flush()
+🎯 Example Usage
+pythonfrom kvstore import Client
+
+# Connect to server
+client = Client()
+
+# Store data
+client.set("user:1", "John")
+client.set("user:2", "Jane")
+
+# Batch operations
+client.mset("x", "10", "y", "20", "z", "30")
+values = client.mget("x", "y", "z")
+print(values)  # ['10', '20', '30']
+
+# Temporary data with TTL
+client.execute("SETEX", "session:abc", 3600, "token123")
+
+# Check database size
+print(f"Total keys: {client.dbsize()}")
+
+# Save to disk
+client.save()
