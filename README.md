@@ -1,5 +1,6 @@
-# In-Memory-Key-Value-Store-Redis-like-
-Lightweight in-memory key-value database with TTL support and custom binary protocol.
+In-Memory-Key-Value-Store (Redis-like)
+
+Lightweight in-memory key-value database with TTL support and a custom binary protocol.
 
 Features
 
@@ -27,6 +28,10 @@ DELETE key
 
 MGET key1 key2 ...
 
+MSET key1 value1 key2 value2 ...
+
+FLUSH
+
 Architecture
 
 ProtocolHandler — parses and serializes protocol messages
@@ -39,6 +44,8 @@ Server — async TCP server handling commands
 
 Client — TCP client for interacting with the server
 
+Tech Stack
+
 Python 3
 
 gevent (async networking)
@@ -49,10 +56,10 @@ Custom binary protocol
 
 In-memory data structures
 
-1. Install dependencies
+Installation
 pip install gevent
 
-2. Start the server
+Run Server
 python kvstore.py
 
 
@@ -66,7 +73,7 @@ from kvstore import Client
 
 client = Client()
 
-Commands
+Commands Usage
 SET
 
 Store a key-value pair
@@ -108,6 +115,3 @@ FLUSH
 Remove all keys
 
 client.flush()
-MSET key1 value1 key2 value2 ...
-
-FLUSH
