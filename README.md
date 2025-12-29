@@ -14,10 +14,6 @@ Lightweight in-memory key-value database with TTL support and a custom binary pr
 💿 Persistence with automatic snapshots
 🔐 Atomic saves preventing data corruption
 
-
-🛠️ Supported Commands
-CommandDescriptionGET keyRetrieve value by keySET key valueStore key-value pairSETEX key ttl valueSet with expiration (seconds)DELETE keyRemove a keyMGET key1 key2 ...Get multiple valuesMSET k1 v1 k2 v2 ...Set multiple pairsFLUSHClear all keysSAVEForce immediate saveBGSAVEBackground saveDBSIZEGet key countLASTSAVELast save timestamp
-
 Architecture:
 
 📨 ProtocolHandler — Parses and serializes protocol messages
